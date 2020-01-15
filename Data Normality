@@ -1,0 +1,105 @@
+library(ggplot2)
+library (dplyr)
+
+### Reading in Data
+bcdata=read.table("dataR2.csv",sep=",", header=T)
+
+# changing labels to "Control" and "Patient"
+bcdata$Classification[bcdata$Classification=="1"]= "Control"
+bcdata$Classification[bcdata$Classification=="2"]= "Patient"
+
+### Creating box plot, histogram, and q-q plots
+library(reshape2)
+dat.m <- melt(bcdata,id.var='Classification')
+ggplot(dat.m,aes(x=variable, y=value)) +
+geom_boxplot(aes(fill=Classification )) + 
+facet_wrap(~variable, scales="free") 
+ggplot(dat.m,aes(x=value, color=Classification, fill=Classification)) +
+geom_histogram( alpha=0.5, position="identity") + 
+facet_wrap(~variable, scales="free") 
+ggplot(dat.m,aes(sample=value, color=Classification, fill=Classification)) +
+stat_qq(aes(sample = value))+
+stat_qq_line()+
+facet_wrap(~variable, scales="free") +
+labs(x="variable", y="value")
+
+### Summary statistics
+bcdata=read.table("dataR2.csv",sep=",", header=T)
+head_bcdata = head(bcdata)
+print(head_bcdata)
+
+# Summary 
+summary_age_1 = summary(bcdata[bcdata$Classification == 1, "Age"])
+print(summary_age_1)
+summary_age_2 = summary(bcdata[bcdata$Classification == 2, "Age"])
+print(summary_age_2)
+summary_BMI_1 = summary(bcdata[bcdata$Classification == 1, "BMI"])
+print(summary_BMI_1)
+summary_BMI_2 = summary(bcdata[bcdata$Classification == 2, "BMI"])
+print(summary_BMI_2)
+summary_glucose_1 = summary(bcdata[bcdata$Classification == 1, "Glucose"])
+print(summary_glucose_1)
+summary_glucose_2 = summary(bcdata[bcdata$Classification == 2, "Glucose"])
+print(summary_glucose_2)
+summary_insulin_1 = summary(bcdata[bcdata$Classification == 1, "Insulin"])
+print(summary_insulin_1)
+summary_insulin_2 = summary(bcdata[bcdata$Classification == 2, "Insulin"])
+print(summary_insulin_2)
+summary_HOMA_1 = summary(bcdata[bcdata$Classification == 1, "HOMA"])
+print(summary_HOMA_1)
+summary_HOMA_2 = summary(bcdata[bcdata$Classification == 2, "HOMA"])
+print(summary_HOMA_2)
+summary_leptin_1 = summary(bcdata[bcdata$Classification == 1, "Leptin"])
+print(summary_leptin_1)
+summary_leptin_2 = summary(bcdata[bcdata$Classification == 2, "Leptin"])
+print(summary_leptin_2)
+summary_adipo_1 = summary(bcdata[bcdata$Classification == 1, "Adiponectin"])
+print(summary_adipo_1)
+summary_adipo_2 = summary(bcdata[bcdata$Classification == 2, "Adiponectin"])
+print(summary_adipo_2)
+summary_resistin_1 = summary(bcdata[bcdata$Classification == 1, "Resistin"])
+print(summary_resistin_1)
+summary_resistin_2 = summary(bcdata[bcdata$Classification == 2, "Resistin"])
+print(summary_resistin_2)
+summary_MCP_1 = summary(bcdata[bcdata$Classification == 1, "MCP.1"])
+print(summary_MCP_1)
+summary_MCP_2 = summary(bcdata[bcdata$Classification == 2, "MCP.1"])
+print(summary_MCP_2)
+
+# Testing for Normality
+shapiro_result_age1 = shapiro.test(bcdata[bcdata$Classification == 1, "Age"])
+print(shapiro_result_age1)
+shapiro_result_age2 = shapiro.test(bcdata[bcdata$Classification == 2, "Age"])
+print(shapiro_result_age2)
+shapiro_result_BMI1 = shapiro.test(bcdata[bcdata$Classification == 1, "BMI"])
+print(shapiro_result_BMI1)
+shapiro_result_BMI2 = shapiro.test(bcdata[bcdata$Classification == 2, "BMI"])
+print(shapiro_result_BMI2)
+shapiro_result_glucose1 = shapiro.test(bcdata[bcdata$Classification == 1, "Glucose"])
+print(shapiro_result_glucose1)
+shapiro_result_glucose2 = shapiro.test(bcdata[bcdata$Classification == 2, "Glucose"])
+print(shapiro_result_glucose2)
+shapiro_result_insulin1 = shapiro.test(bcdata[bcdata$Classification == 1, "Insulin"])
+print(shapiro_result_insulin1)
+shapiro_result_insulin2 = shapiro.test(bcdata[bcdata$Classification == 2, "Insulin"])
+print(shapiro_result_insulin2)
+shapiro_result_HOMA1 = shapiro.test(bcdata[bcdata$Classification == 1, "HOMA"])
+print(shapiro_result_HOMA1)
+shapiro_result_HOMA2 = shapiro.test(bcdata[bcdata$Classification == 2, "HOMA"])
+print(shapiro_result_HOMA2)
+shapiro_result_leptin1 = shapiro.test(bcdata[bcdata$Classification == 1, "Leptin"])
+print(shapiro_result_leptin1)
+shapiro_result_leptin2 = shapiro.test(bcdata[bcdata$Classification == 2, "Leptin"])
+print(shapiro_result_leptin2)
+shapiro_result_adipo1 = shapiro.test(bcdata[bcdata$Classification == 1, "Adiponectin"])
+print(shapiro_result_adipo1)
+shapiro_result_adipo2 = shapiro.test(bcdata[bcdata$Classification == 2, "Adiponectin"])
+print(shapiro_result_adipo2)
+shapiro_result_resistin1 = shapiro.test(bcdata[bcdata$Classification == 1, "Resistin"])
+print(shapiro_result_resistin1)
+shapiro_result_resistin2 = shapiro.test(bcdata[bcdata$Classification == 2, "Resistin"])
+print(shapiro_result_resistin2)
+shapiro_result_mcp1 = shapiro.test(bcdata[bcdata$Classification == 1, "MCP.1"])
+print(shapiro_result_mcp1)
+shapiro_result_mcp2 = shapiro.test(bcdata[bcdata$Classification == 2, "MCP.1"])
+print(shapiro_result_mcp2)
