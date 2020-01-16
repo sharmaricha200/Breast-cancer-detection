@@ -9,7 +9,7 @@ detection.
 The dataset was obtained from the University of Irvine Machine Learning Repository. The patient participants of the study 
 were women who were recently diagnosed with breast cancer at the University Hospital Centre of Coimbra (CHUC) (2009 - 2013) 
 because of a positive mammogram and histologically analysed tissue sample. The healthy controls were women subjects with no 
-breast cancer history (3). Further details of the dataset collection have being previously mentioned in the study (3). 
+breast cancer history. 
 The data was collected for 116 individuals, with two sub groups: 64 Breast Cancer Patients and 52 Healthy Controls. 
 The data has 10 parameters, with 9 quantitative and one binary parameter. The table below lists all the parameters:
 Age (years) 
