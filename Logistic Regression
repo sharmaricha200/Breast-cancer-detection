@@ -1,0 +1,48 @@
+### Logistic Regression
+#resetting data and changing class labels to 0 and 1
+bcdata=read.table("dataR2.csv",sep=",", header=T)
+bcdata$Classification[bcdata$Classification=="1"]= 0
+bcdata$Classification[bcdata$Classification=="2"]= 1
+#randomizing dataframe
+scrambleddata=bcdata[sample(nrow(bcdata)),]
+#setting the training sample size to be 75%
+smp_size = floor(0.75 * nrow(bcdata))
+set.seed(123)
+train_ind=sample(seq_len(nrow(bcdata)),size=smp_size)
+#creating train and test dataframe
+train= scrambleddata[train_ind,]
+test=scrambleddata[-train_ind,]
+### implementing GLM
+logisticmodel= glm(Classification~., family=binomial(link='logit'),data=train)
+summary(logisticmodel)
+#Testing and Accuracy
+fitted.results = predict(logisticmodel,newdata=subset(test,select=c(1,2,3,4,5,6,7,8,9)),type='response')
+fitted.results = ifelse(fitted.results > 0.5,1,0)
+misClasificError = mean(fitted.results != test$Classification)
+print(paste('Accuracy',1-misClasificError))
+### Creating ROC plot and getting AUC value
+library(ROCR)
+p <- predict(logisticmodel, newdata=subset(test,select=c(1,2,3,4,5,6,7,8,9)), type="response")
+pr <- prediction(p, test$Classification)
+prf <- performance(pr, measure = "tpr", x.measure = "fpr")
+plot(prf)
+auc <- performance(pr, measure = "auc")
+auc <- auc@y.values[[1]]
+auc
+### Creating Stepwise Logistic Regression model
+library(MASS)
+# getting most contributive parameters and creating new model
+stepmodel= logisticmodel %>% stepAIC(trace=F)
+coef(stepmodel)
+# testing accuracy of model
+fitted.results = predict(stepmodel,newdata=subset(test,select=c(1,2,3,4,5,6,7,8,9)),type='response')
+fitted.results = ifelse(fitted.results > 0.5,1,0)
+misClasificError = mean(fitted.results != test$Classification) print(paste('Accuracy',1-misClasificError))
+# ROC plot and AUC value
+p <- predict(stepmodel, newdata=subset(test,select=c(1,2,3,4,5,6,7,8,9)), type="response")
+pr <- prediction(p, test$Classification)
+prf <- performance(pr, measure = "tpr", x.measure = "fpr")
+plot(prf)
+auc <- performance(pr, measure = "auc")
+auc <- auc@y.values[[1]]
+auc
